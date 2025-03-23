@@ -31,6 +31,16 @@ public class UserService {
                 .profilePictureLink(profilePictureLink)
                 .build());
 
-        return jwtUtil.generateToken(username); // Return the JWT after successful registration
+        return jwtUtil.generateToken(username);
+    }
+
+    public String authenticateAndGenerateJwt(String email, String password) {
+        User user = userRepository.findByEmail(email);
+
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return JwtUtil.generateToken(user.getEmail());
+        }
+
+        return null;
     }
 }
