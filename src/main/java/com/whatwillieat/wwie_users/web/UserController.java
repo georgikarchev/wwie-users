@@ -3,7 +3,6 @@ package com.whatwillieat.wwie_users.web;
 import com.whatwillieat.wwie_users.dto.UserLoginRequest;
 import com.whatwillieat.wwie_users.dto.UserRegistrationRequest;
 import com.whatwillieat.wwie_users.service.UserService;
-import com.whatwillieat.wwie_users.util.SecurityUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
