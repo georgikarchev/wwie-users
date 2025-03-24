@@ -30,7 +30,7 @@ public class User {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private Role role = Role.USER;
+    private UserRole userRole = UserRole.USER;
 
     private String profilePictureLink;
 

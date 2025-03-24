@@ -1,7 +1,6 @@
-package com.whatwillieat.wwie_users.web;
+package com.whatwillieat.wwie_users.controller;
 
-import com.whatwillieat.wwie_users.dto.UserLoginRequest;
-import com.whatwillieat.wwie_users.dto.UserRegistrationRequest;
+import com.whatwillieat.wwie_users.dto.*;
 import com.whatwillieat.wwie_users.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +33,30 @@ public class UserController {
         return ResponseEntity.ok(jwt); // Return JWT token
     }
 
+    @GetMapping("/{userId}")
+    public UserResponse getUser(@PathVariable UUID userId) {
+        return userService.getNonSoftDeletedUserById(userId);
+    }
+
     @GetMapping("/{id}/is-admin")
     public Map<String, Boolean> isAdmin(@PathVariable UUID id) {
         return Map.of("isAdmin", userService.isUserAdmin(id));
     }
+
+    @PutMapping("/{userId}/role")
+    public void updateUserRole(@PathVariable UUID userId, @RequestBody @Valid UpdateRoleRequest request) {
+        userService.updateUserRole(userId, request.getUserRole());
+    }
+
+    @PutMapping("/{userId}")
+    public UserResponse updateUser(@PathVariable UUID userId, @RequestBody @Valid UpdateUserRequest request) {
+        return userService.updateUser(userId, request);
+    }
+
+    @DeleteMapping("/{userId}")
+    public void deleteUser(@PathVariable UUID userId) {
+        userService.softDeleteUser(userId);
+    }
+
 }
 

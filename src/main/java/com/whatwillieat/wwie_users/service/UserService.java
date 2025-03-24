@@ -1,9 +1,14 @@
 package com.whatwillieat.wwie_users.service;
 
+import com.whatwillieat.wwie_users.dto.UpdateUserRequest;
+import com.whatwillieat.wwie_users.dto.UserResponse;
+import com.whatwillieat.wwie_users.exception.UserNotFoundException;
 import com.whatwillieat.wwie_users.model.User;
 import com.whatwillieat.wwie_users.repository.UserRepository;
 import com.whatwillieat.wwie_users.util.JwtUtil;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.whatwillieat.wwie_users.model.UserRole;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +20,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Autowired
     public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
@@ -50,7 +56,50 @@ public class UserService {
 
     public boolean isUserAdmin(UUID userId) {
         return userRepository.findById(userId)
-                .map(user -> "ADMIN".equals(user.getRole()))
+                .map(user -> "ADMIN".equals(user.getUserRole()))
                 .orElse(false);
+    }
+
+    public void updateUserRole(UUID userId, UserRole userRole) {
+        User user = getUserOrThrow(userId);
+
+        user.setUserRole(userRole);
+        userRepository.save(user);
+    }
+
+    public UserResponse updateUser(UUID userId, UpdateUserRequest request) {
+        User user = getUserOrThrow(userId);
+
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        userRepository.save(user);
+
+        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getUserRole());
+    }
+
+    public void softDeleteUser(UUID userId) {
+        User user = getUserOrThrow(userId);
+        user.setDeleted(true);
+        userRepository.save(user);
+    }
+
+    public void deleteUser(UUID userId) {
+        User user = getUserOrThrow(userId);
+        userRepository.delete(user);
+    }
+
+    public User getUserOrThrow(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+    }
+
+    public UserResponse getNonSoftDeletedUserById(UUID userId) {
+        User user = getUserOrThrow(userId);
+
+        if (user.isDeleted()) {
+            throw new UserNotFoundException(userId);
+        }
+
+        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getUserRole());
     }
 }

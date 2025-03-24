@@ -1,6 +1,6 @@
 package com.whatwillieat.wwie_users.model;
 
-public enum Role {
+public enum UserRole {
     ADMIN,
     USER,
     MODERATOR
