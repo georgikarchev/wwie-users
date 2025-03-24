@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -44,5 +46,11 @@ public class UserService {
         }
 
         return null;
+    }
+
+    public boolean isUserAdmin(UUID userId) {
+        return userRepository.findById(userId)
+                .map(user -> "ADMIN".equals(user.getRole()))
+                .orElse(false);
     }
 }
