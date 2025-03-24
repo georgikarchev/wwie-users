@@ -24,21 +24,23 @@ public class UserService {
             throw new RuntimeException("Username or email already taken");
         }
 
-        userRepository.save(User.builder()
+        User user = User.builder()
                 .username(username)
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .profilePictureLink(profilePictureLink)
-                .build());
+                .build();
 
-        return jwtUtil.generateToken(username);
+        userRepository.save(user);
+
+        return jwtUtil.generateToken(user.getId().toString());
     }
 
     public String authenticateAndGenerateJwt(String email, String password) {
         User user = userRepository.findByEmail(email);
 
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            return JwtUtil.generateToken(user.getEmail());
+            return JwtUtil.generateToken(user.getId().toString());
         }
 
         return null;

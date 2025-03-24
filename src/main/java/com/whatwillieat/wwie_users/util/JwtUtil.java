@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtUtil {
@@ -24,9 +25,9 @@ public class JwtUtil {
 
     private static final long EXPIRATION_TIME = 86400000; // 1 day
 
-    public static String generateToken(String username) {
+    public static String generateToken(String userId) {
         return Jwts.builder()
-                .subject(username)
+                .subject(userId)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SECRET_KEY)
@@ -41,18 +42,11 @@ public class JwtUtil {
                 .getBody();
     }
 
-    // Extract username from token
-    public String extractUsername(String token) {
-        return Jwts.parser()  // ✅ Use parserBuilder() instead of parser()
-                .setSigningKey(SECRET_KEY)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+    public UUID extractUserId(String token) {
+        Claims claims = validateToken(token);
+        return claims.get("userId", UUID.class);
     }
-
-
-    // Check if the token is expired
+    
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
