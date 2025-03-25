@@ -155,6 +155,7 @@ public class UserService {
                 .email(user.getEmail())
                 .profilePictureLink(user.getProfilePictureLink())
                 .isDeleted(user.isDeleted())
+                .userRole(user.getUserRole())
                 .createdOn(user.getCreatedOn())
                 .updatedOn(user.getUpdatedOn())
                 .build()).collect(Collectors.toList());
