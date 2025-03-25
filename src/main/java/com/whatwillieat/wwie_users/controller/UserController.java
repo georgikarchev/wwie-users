@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(@Valid @RequestBody UserRegistrationRequest request) {
-        return userService.registerUser(request.getUsername(), request.getEmail(), request.getPassword(), request.getProfilePictureUrl());
+        return userService.registerUser(request);
     }
 
     @PostMapping("/login")

@@ -2,6 +2,7 @@ package com.whatwillieat.wwie_users.service;
 
 import com.whatwillieat.wwie_users.dto.UpdateUserRequest;
 import com.whatwillieat.wwie_users.dto.UserFullDataResponse;
+import com.whatwillieat.wwie_users.dto.UserRegistrationRequest;
 import com.whatwillieat.wwie_users.dto.UserResponse;
 import com.whatwillieat.wwie_users.exception.UserNotFoundException;
 import com.whatwillieat.wwie_users.model.User;
@@ -31,16 +32,16 @@ public class UserService {
     }
 
     // Register a user
-    public String registerUser(String username, String email, String password, String profilePictureLink) {
-        if (userRepository.findByUsername(username) != null || userRepository.findByEmail(email) != null) {
+    public String registerUser(UserRegistrationRequest request) {
+        if (userRepository.findByUsername(request.getUsername()) != null || userRepository.findByEmail(request.getEmail()) != null) {
             throw new RuntimeException("Username or email already taken");
         }
 
         User user = User.builder()
-                .username(username)
-                .email(email)
-                .password(passwordEncoder.encode(password))
-                .profilePictureLink(profilePictureLink)
+                .username(request.getUsername())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .profilePictureLink(request.getProfilePictureUrl())
                 .build();
 
         userRepository.save(user);
