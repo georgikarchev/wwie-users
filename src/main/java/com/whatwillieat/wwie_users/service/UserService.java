@@ -103,6 +103,7 @@ public class UserService {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .profilePictureLink(user.getProfilePictureLink())
+                .userRole(user.getUserRole())
                 .createdOn(user.getCreatedOn())
                 .updatedOn(user.getUpdatedOn())
                 .build();
