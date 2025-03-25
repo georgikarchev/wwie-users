@@ -1,14 +1,13 @@
 package com.whatwillieat.wwie_users.service;
 
-import com.whatwillieat.wwie_users.dto.UpdateUserRequest;
-import com.whatwillieat.wwie_users.dto.UserFullDataResponse;
-import com.whatwillieat.wwie_users.dto.UserRegistrationRequest;
-import com.whatwillieat.wwie_users.dto.UserResponse;
+import com.whatwillieat.wwie_users.dto.*;
+import com.whatwillieat.wwie_users.exception.UserNotAuthenticatedException;
 import com.whatwillieat.wwie_users.exception.UserNotFoundException;
 import com.whatwillieat.wwie_users.model.User;
 import com.whatwillieat.wwie_users.repository.UserRepository;
 import com.whatwillieat.wwie_users.util.JwtUtil;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.whatwillieat.wwie_users.model.UserRole;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -49,14 +48,34 @@ public class UserService {
         return jwtUtil.generateToken(user.getId().toString());
     }
 
-    public String authenticateAndGenerateJwt(String email, String password) {
-        User user = userRepository.findByEmail(email);
+    public String loginUser(UserLoginRequest request) {
 
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            return JwtUtil.generateToken(user.getId().toString());
+        User user = authenticateUser(request.getEmail(), request.getPassword());
+
+        if (user.isDeleted()) {
+            throw new UserNotFoundException(user.getId());
         }
 
-        return null;
+        return generateToken(user);
+    }
+
+    public String authenticateAndGenerateJwt(String email, String password) {
+        User user = authenticateUser(email, password);
+        return generateToken(user);
+    }
+
+    public User authenticateUser(String email, String password) {
+        User user = getUserByEmailOrThrow(email);
+
+        if(user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return user;
+        }
+
+        throw new UserNotAuthenticatedException();
+    }
+
+    public String generateToken(User user) {
+        return JwtUtil.generateToken(user.getId().toString());
     }
 
     public boolean isUserAdmin(UUID userId) {
@@ -103,6 +122,12 @@ public class UserService {
     public User getUserOrThrow(UUID userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
+    }
+
+    public User getUserByEmailOrThrow(String userEmail) {
+        return userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UserNotFoundException());
+
     }
 
     public UserResponse getNonSoftDeletedUserById(UUID userId) {

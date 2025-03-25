@@ -29,13 +29,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@Valid @RequestBody UserLoginRequest request) {
-        String jwt = userService.authenticateAndGenerateJwt(request.getEmail(), request.getPassword());
-
-        if (jwt == null) {
-            return ResponseEntity.status(401).body("Invalid credentials");
-        }
-
-        return ResponseEntity.ok(jwt); // Return JWT token
+        return ResponseEntity.ok(userService.loginUser(request));
     }
 
     @GetMapping
