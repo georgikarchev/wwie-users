@@ -1,6 +1,7 @@
 package com.whatwillieat.wwie_users.service;
 
 import com.whatwillieat.wwie_users.dto.UpdateUserRequest;
+import com.whatwillieat.wwie_users.dto.UserFullDataResponse;
 import com.whatwillieat.wwie_users.dto.UserResponse;
 import com.whatwillieat.wwie_users.exception.UserNotFoundException;
 import com.whatwillieat.wwie_users.model.User;
@@ -12,7 +13,10 @@ import com.whatwillieat.wwie_users.model.UserRole;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -56,7 +60,7 @@ public class UserService {
 
     public boolean isUserAdmin(UUID userId) {
         return userRepository.findById(userId)
-                .map(user -> "ADMIN".equals(user.getUserRole()))
+                .map(user -> UserRole.ADMIN == user.getUserRole())
                 .orElse(false);
     }
 
@@ -112,8 +116,21 @@ public class UserService {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .profilePictureLink(user.getProfilePictureLink())
+                .userRole(user.getUserRole())
                 .createdOn(user.getCreatedOn())
                 .updatedOn(user.getUpdatedOn())
                 .build();
+    }
+
+    public List<UserFullDataResponse> getAllUsers() {
+        return userRepository.findAll().stream().map(user -> UserFullDataResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .profilePictureLink(user.getProfilePictureLink())
+                .isDeleted(user.isDeleted())
+                .createdOn(user.getCreatedOn())
+                .updatedOn(user.getUpdatedOn())
+                .build()).collect(Collectors.toList());
     }
 }

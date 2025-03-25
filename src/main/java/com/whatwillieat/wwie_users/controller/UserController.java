@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -35,6 +36,11 @@ public class UserController {
         }
 
         return ResponseEntity.ok(jwt); // Return JWT token
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserFullDataResponse>> getUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{userId}")
