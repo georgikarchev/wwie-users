@@ -14,8 +14,12 @@ import java.util.UUID;
 @RequestMapping("${app.API_V1_BASE_URL}/users")
 public class UserController {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
     public String registerUser(@Valid @RequestBody UserRegistrationRequest request) {
@@ -34,8 +38,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public UserResponse getUser(@PathVariable UUID userId) {
-        return userService.getNonSoftDeletedUserById(userId);
+    public ResponseEntity<UserResponse> getUser(@PathVariable UUID userId) {
+        return ResponseEntity.ok(userService.getNonSoftDeletedUserById(userId));
     }
 
     @GetMapping("/{id}/is-admin")
@@ -49,8 +53,8 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public UserResponse updateUser(@PathVariable UUID userId, @RequestBody @Valid UpdateUserRequest request) {
-        return userService.updateUser(userId, request);
+    public ResponseEntity<UserResponse> updateUser(@PathVariable UUID userId, @RequestBody @Valid UpdateUserRequest request) {
+        return ResponseEntity.ok(userService.updateUser(userId, request));
     }
 
     @DeleteMapping("/{userId}")

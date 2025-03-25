@@ -74,7 +74,14 @@ public class UserService {
         user.setEmail(request.getEmail());
         userRepository.save(user);
 
-        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getUserRole());
+        return UserResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .profilePictureLink(user.getProfilePictureLink())
+                .createdOn(user.getCreatedOn())
+                .updatedOn(user.getUpdatedOn())
+                .build();
     }
 
     public void softDeleteUser(UUID userId) {
@@ -100,6 +107,13 @@ public class UserService {
             throw new UserNotFoundException(userId);
         }
 
-        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getUserRole());
+        return UserResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .profilePictureLink(user.getProfilePictureLink())
+                .createdOn(user.getCreatedOn())
+                .updatedOn(user.getUpdatedOn())
+                .build();
     }
 }
