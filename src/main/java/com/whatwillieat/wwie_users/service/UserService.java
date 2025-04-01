@@ -32,7 +32,7 @@ public class UserService {
 
     // Register a user
     public String registerUser(UserRegistrationRequest request) {
-        if (userRepository.findByUsername(request.getUsername()) != null || userRepository.findByEmail(request.getEmail()) != null) {
+        if (userRepository.findByUsername(request.getUsername()) != null || userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("Username or email already taken");
         }
 
