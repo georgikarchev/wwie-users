@@ -32,7 +32,10 @@ public class UserService {
 
     // Register a user
     public String registerUser(UserRegistrationRequest request) {
-        if (userRepository.findByUsername(request.getUsername()) != null || userRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (
+                userRepository.findByUsername(request.getUsername()) != null ||
+                userRepository.findByEmail(request.getEmail()).isPresent()) {
+            System.out.println("Usename or email already exists");
             throw new RuntimeException("Username or email already taken");
         }
 
@@ -96,6 +99,7 @@ public class UserService {
 
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
+        user.setProfilePictureLink(request.getProfilePictureLink());
         userRepository.save(user);
 
         return UserResponse.builder()

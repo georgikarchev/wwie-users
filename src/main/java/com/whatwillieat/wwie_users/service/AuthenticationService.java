@@ -17,7 +17,6 @@ public class AuthenticationService {
         String requestApiKey = request.getHeader(AUTH_TOKEN_HEADER_NAME);
         String appApiKey = AuthConfig.getAuthToken();
         int port = AuthConfig.getPort();
-        System.out.println(port);
 
         if (requestApiKey == null || !requestApiKey.equals(appApiKey)) {
             throw new BadCredentialsException("Invalid API Key");

@@ -17,4 +17,7 @@ public class UpdateUserRequest {
     @Email
     @NotBlank
     private String email;
+
+    @NotBlank
+    private String profilePictureLink;
 }
