@@ -1,0 +1,360 @@
+{
+	"info": {
+		"_postman_id": "5b176630-2610-4dd7-99aa-fe17645a1852",
+		"name": "wwie-users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18892565"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "users-api-key-123123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"gogo2\",\n    \"password\":\"Pa55word\",\n    \"email\": \"georgi.karchev.2@gmail.com\",\n    \"profilePictureUrl\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/api/v1/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"register"
+					],
+					"query": [
+						{
+							"key": "mealTypes",
+							"value": "SNACK",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "users-api-key-123123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"georgi.karchev@gmail.com\",\n    \"password\":\"Pa55word\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/api/v1/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"login"
+					],
+					"query": [
+						{
+							"key": "mealTypes",
+							"value": "SNACK",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "isAdmin",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "users-api-key-123123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"georgi.karchev@gmail.com\",\n    \"password\":\"Pa55word\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/api/v1/users/aa5cbf08-c1c9-42f3-ab6a-322eeabc3de1/is-admins",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"aa5cbf08-c1c9-42f3-ab6a-322eeabc3de1",
+						"is-admins"
+					],
+					"query": [
+						{
+							"key": "mealTypes",
+							"value": "SNACK",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "users-api-key-123123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"georgi.karchev@gmail.com\",\n    \"password\":\"Pa55word\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/api/v1/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"login"
+					],
+					"query": [
+						{
+							"key": "mealTypes",
+							"value": "SNACK",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "users-api-key-123123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8084/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					],
+					"query": [
+						{
+							"key": "mealTypes",
+							"value": "SNACK",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "users-api-key-123123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"gogo\",\n    \"email\": \"georgi.karchev@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/api/v1/users/aa5cbf08-c1c9-42f3-ab6a-322eeabc3de1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"aa5cbf08-c1c9-42f3-ab6a-322eeabc3de1"
+					],
+					"query": [
+						{
+							"key": "mealTypes",
+							"value": "SNACK",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "userRole",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "users-api-key-123123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userRole\": \"ADMIN\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/api/v1/users/aa5cbf08-c1c9-42f3-ab6a-322eeabc3de1/role",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"aa5cbf08-c1c9-42f3-ab6a-322eeabc3de1",
+						"role"
+					],
+					"query": [
+						{
+							"key": "mealTypes",
+							"value": "SNACK",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "users-api-key-123123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"gogo\",\n    \"email\": \"georgi.karchev@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/api/v1/users/aa5cbf08-c1c9-42f3-ab6a-322eeabc3de1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"aa5cbf08-c1c9-42f3-ab6a-322eeabc3de1"
+					],
+					"query": [
+						{
+							"key": "mealTypes",
+							"value": "SNACK",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
